@@ -161,7 +161,6 @@ namespace BrashMonkeyContentPipelineExtension {
                     //foreach (XElement l_timeLine in l_animation.Descendants("timeline").Where(l => l.Attribute("object_type") == null)) {
                     p_output.Write(l_animation.Descendants("timeline").Count());
                     foreach (XElement l_timeLine in l_animation.Descendants("timeline")) {
-
                         p_output.Write(l_entity.Attribute("name").Value);
 
                         /// Write Key                       

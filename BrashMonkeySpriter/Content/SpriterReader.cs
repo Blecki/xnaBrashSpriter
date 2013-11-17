@@ -29,32 +29,6 @@ namespace BrashMonkeySpriter.Content {
     public class SpriterReader : ContentTypeReader<CharacterModel> {
         protected override CharacterModel Read(ContentReader p_input, CharacterModel p_character) {
             p_character = new CharacterModel();
-/*            
-            /// ------------------- Texture Dictionary -------------------------------
-            Int32 l_folderCount = p_input.ReadInt32();///Number of Folders
-            for (int l_fIter = 0; l_fIter < l_folderCount; l_fIter++) {
-                List<String> l_list = new List<String>();
-                
-                Int32 l_fileCount = p_input.ReadInt32();///Number of Files
-                for (int l_fIter2 = 0; l_fIter2 < l_fileCount; l_fIter2++) {
-                    l_list.Add(p_input.ReadString());///Name
-                    p_input.ReadInt32();///Width
-                    p_input.ReadInt32();///Height
-                }
-
-                p_character.FileNames.Add(l_list);
-            }
-            // Load textures
-            for (int l_i = 0; l_i < p_character.FileNames.Count; l_i++) {
-                List<Texture2D> l_list = new List<Texture2D>();
-
-                for (int l_j = 0; l_j < p_character.FileNames[l_i].Count; l_j++) {
-                    l_list.Add(p_input.ContentManager.Load<Texture2D>(p_character.FileNames[l_i][l_j].Substring(0, p_character.FileNames[l_i][l_j].Length - 4)));
-                }
-
-                p_character.Textures.Add(l_list);
-            }
-*/
 
             Int32 l_textureCount = p_input.ReadInt32();///Number of Textures
             for (int l_tIter = 0; l_tIter < l_textureCount; l_tIter++) {
@@ -145,7 +119,15 @@ namespace BrashMonkeySpriter.Content {
                             TimelineKey l_key = new TimelineKey();
 
                             l_key.Time = p_input.ReadInt32();//time
-                            l_key.Spin = p_input.ReadInt32() >= 0 ? SpinDirection.CounterClockwise : SpinDirection.Clockwise;//spin
+
+                            int l_spin = p_input.ReadInt32();//spin
+                            if (l_spin == 0) {
+                                l_key.Spin = SpinDirection.None;
+                            } else if (l_spin == 1) {
+                                l_key.Spin = SpinDirection.CounterClockwise;
+                            } else if (l_spin == -1) {
+                                l_key.Spin = SpinDirection.Clockwise;
+                            }
 
                             l_key.Type = (TimelineType)p_input.ReadInt32();//type
 
